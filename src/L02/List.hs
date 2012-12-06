@@ -134,7 +134,10 @@ flatMap = (flatten .) . maap
 -- Elegance: 3.5 marks
 -- Total: 9
 seqf :: List (a -> b) -> a -> List b
-seqf = error "todo"
+-- seqf = error "todo"
+seqf Nil _ = Nil
+seqf (f:|fs) x = (f x) :| (seqf fs x) 
+--seqf =     
 
 -- Exercise 10
 -- Relative Difficulty: 10
@@ -143,6 +146,7 @@ seqf = error "todo"
 -- Elegance: 2.5 marks
 -- Total: 10
 rev :: List a -> List a
-rev = error "todo"
-
+-- rev = error "todo"
+-- rev = foldLeft (\xs x -> (:|) x xs) Nil
+rev = foldLeft ( flip (:|)) Nil
 -- END Exercises
