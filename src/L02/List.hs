@@ -77,7 +77,8 @@ maap :: (a -> b) -> List a -> List b
 -- maap = error "todo"
 -- maap _ Nil = Nil
 -- maap f (x :| xs) = (f x) :| (maap f xs)
-maap f = foldRight (\x y -> (f x) :| y) Nil 
+-- maap f = foldRight (\x y -> (:|) (f x) y) Nil 
+maap f = foldRight ((:|).f) Nil
   
 -- Exercise 5
 -- Relative Difficulty: 5
@@ -88,6 +89,9 @@ maap f = foldRight (\x y -> (f x) :| y) Nil
 fiilter :: (a -> Bool) -> List a -> List a
 -- fiilter = error "todo"
 fiilter f = foldRight (\x xs -> if (f x) then x :| xs else xs) Nil  
+
+
+
 
 -- Exercise 6
 -- Relative Difficulty: 5
@@ -107,7 +111,9 @@ append  = flip  (foldRight (:|))
 -- Elegance: 1 mark
 -- Total: 7
 flatten :: List (List a) -> List a
-flatten = error "todo"
+-- flatten = error "todo"
+-- flatten = foldRight (\xs ys -> append xs ys) Nil
+flatten = foldRight(append) Nil
 
 -- Exercise 8
 -- Relative Difficulty: 7
@@ -116,7 +122,10 @@ flatten = error "todo"
 -- Elegance: 1.5 mark
 -- Total: 8
 flatMap :: (a -> List b) -> List a -> List b
-flatMap = error "todo"
+-- flatMap = error "todo"
+-- flatMap f xs = flatten (maap f xs)
+flatMap = (flatten .) . maap  
+
 
 -- Exercise 9
 -- Relative Difficulty: 8
