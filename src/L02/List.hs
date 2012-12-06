@@ -40,7 +40,9 @@ foldLeft f b (h :| t) = let b' = f b h in b' `seq` foldLeft f b' t
 -- Elegance: 0.5 marks
 -- Total: 3
 headOr :: List a -> a -> a
-headOr = error "todo"
+-- headOr = error "todo"
+headOr Nil x = x
+headOr (h :| _) _ = h
 
 -- Exercise 2
 -- Relative Difficulty: 2
@@ -49,8 +51,9 @@ headOr = error "todo"
 -- Elegance: 0.5 marks
 -- Total: 4
 suum :: List Int -> Int
-suum = error "todo"
-
+-- suum = error "todo"
+-- suum Nil = 0
+suum = foldLeft (+) 0 
 -- Exercise 3
 -- Relative Difficulty: 2
 -- Correctness: 2.5 marks
@@ -58,7 +61,11 @@ suum = error "todo"
 -- Elegance: 0.5 marks
 -- Total: 4
 len :: List a -> Int
-len = error "todo"
+-- len = error "todo"
+-- len Nil = 0
+-- len (_ :| t) = 1 + len t
+len = foldLeft (const . succ) 0
+--	where add1 x y = x + 1 
 
 -- Exercise 4
 -- Relative Difficulty: 5
@@ -67,8 +74,11 @@ len = error "todo"
 -- Elegance: 1.5 marks
 -- Total: 7
 maap :: (a -> b) -> List a -> List b
-maap = error "todo"
-
+-- maap = error "todo"
+-- maap _ Nil = Nil
+-- maap f (x :| xs) = (f x) :| (maap f xs)
+maap f = foldRight (\x y -> (f x) :| y) Nil 
+  
 -- Exercise 5
 -- Relative Difficulty: 5
 -- Correctness: 4.5 marks
@@ -76,7 +86,8 @@ maap = error "todo"
 -- Elegance: 1 mark
 -- Total: 7
 fiilter :: (a -> Bool) -> List a -> List a
-fiilter = error "todo"
+-- fiilter = error "todo"
+fiilter f = foldRight (\x xs -> if (f x) then x :| xs else xs) Nil  
 
 -- Exercise 6
 -- Relative Difficulty: 5
@@ -85,7 +96,9 @@ fiilter = error "todo"
 -- Elegance: 1 mark
 -- Total: 7
 append :: List a -> List a -> List a
-append = error "todo"
+-- append = error "todo"
+append  = flip  (foldRight (:|)) 
+
 
 -- Exercise 7
 -- Relative Difficulty: 5
